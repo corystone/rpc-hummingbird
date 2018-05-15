@@ -5,6 +5,7 @@
 
 Welcome to Hummingbird's documentation!
 =======================================
+TESTING BUILDING DOCS ON TRAVIS!
 
 .. toctree::
    :maxdepth: 2
