@@ -7,6 +7,7 @@ services:
 
 script:
   - cd docs && make docs
+  - touch docs/_build/html/.nojekyll # Is there a better way to do this?
 
 deploy:
   provider: pages
