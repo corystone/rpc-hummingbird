@@ -8,7 +8,9 @@ services:
 script:
   - cd docs && make docs
   - pwd
-  - touch _build/html/.nojekyll # Is there a better way to do this?
+  - whoami
+  - ls -l _build/html
+  - sudo touch _build/html/.nojekyll # Is there a better way to do this?
 
 deploy:
   provider: pages
