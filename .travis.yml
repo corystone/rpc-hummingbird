@@ -15,5 +15,5 @@ deploy:
   keep-history: true
   local-dir: docs/_build
   on:
-    branch: master
+    branch: docs2
 
