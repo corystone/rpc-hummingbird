@@ -1,9 +1,0 @@
----
-
-- include: setup-containers.yml
-
-- include: setup-hummingbird-disks.yml
-
-- include: ../playbooks/deploy-hummingbird.yml
-
-- include: test-hummingbird-functional.yml
