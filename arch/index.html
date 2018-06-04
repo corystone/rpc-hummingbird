@@ -104,6 +104,12 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Hummingbird</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Hummingbird Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#supported-hardware">Supported Hardware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rackspace-data-center">Rackspace Data Center</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customer-data-center">Customer Data Center</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-deployments">Supported Deployments</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../admin/index.html">Hummingbird Cluster Health</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deployment.html">So You Want to Deploy Hummingbird</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
@@ -184,6 +190,88 @@
 <p>No support for Swift’s Modifying Ring Partition Power feature, therefore no equivalent of the swift-object-relinker.</p>
 <p>No support for Swift’s Symbolic Linking feature at this time.</p>
 <img alt="../_images/hummingbird_architecture.png" src="../_images/hummingbird_architecture.png" />
+</div>
+<div class="section" id="supported-hardware">
+<h1>Supported Hardware<a class="headerlink" href="#supported-hardware" title="Permalink to this headline">#</a></h1>
+<div class="section" id="rackspace-data-center">
+<h2>Rackspace Data Center<a class="headerlink" href="#rackspace-data-center" title="Permalink to this headline">#</a></h2>
+<p><strong>HPE 4510-G10 (Currently Considered a One-Off)</strong></p>
+<ul class="simple">
+<li><strong>Capacity:</strong> 454TB RAW per Node</li>
+<li><strong>Model:</strong> HP DL380 Gen9 LFF - 3.5” Chassis</li>
+<li><strong>Processor:</strong> Dual Socket Intel Xeon Processor 6142 (16 Core 2.6GHz)</li>
+<li><strong>Memory:</strong> 192 GB</li>
+<li><strong>Onboard NIC:</strong> HPE Eth 10/25Gb 2P 640FLR-SFP28 NIC (MLNX-CX4)</li>
+<li><strong>Additional NIC:</strong> HPE Eth 10/25Gb 2P 640-SFP28 NIC (MLNX-CX4)</li>
+<li><strong>RAID Controllers:</strong> 1x HPE Smart Array E208i-a SR, 2x HPE Smart Array P408i-p SR</li>
+<li><strong>Drives:</strong> 2x 960 GB SSD(OS), 10x 1.92TB SSD (MU), 50x 10TB NL-SAS/SATA</li>
+</ul>
+<p><strong>HPE DL380-G9</strong></p>
+<ul class="simple">
+<li><strong>Capacity:</strong> 37TB RAW per Node</li>
+<li><strong>Model:</strong> HP DL380 Gen9 LFF - 3.5” Chassis</li>
+<li><strong>Processor:</strong> Dual Socket Octo Core Intel Xeon E5-2630 2.40 Ghz</li>
+<li><strong>Memory:</strong> 128 GB</li>
+<li><strong>Onboard NIC:</strong> HP 561-T Dual Port 10GbE Base-T PCIe NIC (RJ-45)</li>
+<li><strong>Additional NIC:</strong> HP 561-T Dual Port 10GbE Base-T PCIe NIC (RJ-45)</li>
+<li><strong>Drives:</strong> 2x 600 GB SAS(OS), 2x 960GB SSD (MU), 8x 6TB NL-SAS/SATA</li>
+</ul>
+<p><strong>Supermicro JBOD</strong></p>
+<ul class="simple">
+<li><strong>Model:</strong> E16 or E26</li>
+<li><strong>Drives:</strong> 45x SATA Drives</li>
+</ul>
+<p><strong>Dell R740XL-XL</strong></p>
+<ul class="simple">
+<li><strong>Capacity:</strong> 72TB RAW per Node</li>
+<li><strong>Model:</strong> Dell R740XD-XL - 3.5” Chassis</li>
+<li><strong>Processor:</strong> Dual Socket Intel Xeon Processor 4110 (8 Core 2.1 GHz)</li>
+<li><strong>Memory:</strong> 192 GB</li>
+<li><strong>Onboard NIC:</strong> Intel X550 4-port 10GbE Base-T (RJ-45)</li>
+<li><strong>Additional NIC:</strong> Intel X550 2-port 10GbE Base-T (RJ-45)</li>
+<li><strong>Drives:</strong> 2x 480 GB SSD(OS), 2x 960GB SSD (MU), 10x 8TB NL-SAS/SATA</li>
+</ul>
+<p><strong>Networking</strong></p>
+<ul class="simple">
+<li>F5 Loadbalancer</li>
+<li>HAProxy</li>
+<li>10GbE Networking</li>
+</ul>
+</div>
+<div class="section" id="customer-data-center">
+<h2>Customer Data Center<a class="headerlink" href="#customer-data-center" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li>HPE 4510-G10</li>
+<li>HPE DL380-G9</li>
+<li>Supermicro E16/E26 JBOD</li>
+<li>Dell R740XL-XL</li>
+<li>Others on request</li>
+<li>F5 Loadbalancer</li>
+<li>HAProxy</li>
+<li>10/25/40/50/100GbE Networking</li>
+</ul>
+<p><strong>A customer must adhere to certain guidelines when procuring or re-purposing existing hardware.  A Hummingbird cluster made from non-ideal, or inconsistent hardware will lead to a poor user experience.</strong></p>
+<p><em>Generally the following recommendations should be followed when not using the node configurations detailed above.</em></p>
+<ul class="simple">
+<li><strong>CPUs</strong> - 1 CPU Core to 2 Object Disks, CPUs should be no older than Haswell</li>
+<li><strong>RAM per Object Storage Disk</strong> - A minimum allocation of 2GB RAM</li>
+<li><strong>SSD to Object Storage Ratio</strong> - Recommend that SSD capacity is approximately 4% of total Object storage</li>
+<li><strong>SSD Endurance</strong> - SSDs are required to be NVMe/SSD with a duty cycle of a minimum of 5TBWPD.</li>
+<li><strong>Object Storage Drives</strong> - NVMe, SSD, SAS, NL-SAS or SATA supported</li>
+<li><strong>Operating System Drives</strong> - Must be a RAID1 pair of minimum SAS drives</li>
+<li><strong>Networking</strong> - No less than 2x 10GbE or 2x 25GbE or 2x 40GbE Ports per node.  Jumbo frames highly recommended. Care must be taken to size TOR uplinks to aggregation switches to avoid creating a bottleneck.</li>
+</ul>
+</div>
+<div class="section" id="supported-deployments">
+<h2>Supported Deployments<a class="headerlink" href="#supported-deployments" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li>A minimal number of nodes equal to the number of replicas or number of EC shards is required, growth increments are then in increments of that same number.</li>
+<li>All storage nodes <strong>must</strong> have HA networking</li>
+<li>All cabinets <strong>must</strong> provide HA networking</li>
+</ul>
+<p>For example, a 3-Replica cluster could start with nodes 1,9,17 below, scaling up to 24 nodes, before scaling out to another 3 cabinets for nodes 25 through 48.</p>
+<img alt="../_images/hpesmjbodracks.png" src="../_images/hpesmjbodracks.png" />
+</div>
 </div>
 
 
