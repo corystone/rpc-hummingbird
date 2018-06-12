@@ -45,7 +45,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Hummingbird v.PR documentation" href="../index.html"/>
         <link rel="up" title="Hummingbird Cluster Health" href="index.html"/>
-        <link rel="next" title="Stalled Replicators Report" href="stalledreplicators.html"/>
+        <link rel="next" title="Andrewd Replication" href="stalledreplicators.html"/>
         <link rel="prev" title="MD5 Report" href="ringmd5.html"/> 
 
   
@@ -112,20 +112,23 @@
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html">Hummingbird Monitoring</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#metrics-exposed-by-hummingbird-services">Metrics exposed by Hummingbird services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drivestatus.html">Drive Status Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="async.html">Async Pending Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Quarantine Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Stalled Replicators Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Andrewd Replication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html#stalled-replicators-report">Stalled Replicators Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationstats.html">Replication Partitions Per Second Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationduration.html">Replication Duration Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timesync.html">Time Sync Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replication-tools.html">Hummingbird Priority Replication Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../deployment.html">So You Want to Deploy Hummingbird</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
 </ul>
 
@@ -199,7 +202,20 @@ area. Such corruption can occur due to hardware errors or software bugs,
 though usually they indicate failing hardware. If you notice a large
 increase in quarantined files, it should be investigated as soon as
 possible.</p>
-<p>Note that the JSON output will give specific counts for each server.</p>
+<p>Andrewd will scan the cluster for quarantined items and attempt to
+replace them with copies from elsewhere in the cluster. It will try to
+do this as efficiently as possible, e.g.&nbsp;copying a single item if it
+knows exactly what got corrupted or falling back to replicating a whole
+partition if has no further information.</p>
+<p>After Andrewd repairs a quarantined item, it moves that corrupted item
+into the quarantine history directory structure on the device. After
+some time (30 days by default) Andrewd will then clear it out of the
+history area completely. This gives time to research corruption if
+desired while keeping the cluster clean over time.</p>
+<p>The first report you can obtain is the general quarantine report,
+indicating how many quarantined items there are at the time of the
+report. Note that the JSON output will give specific counts for each
+server.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -q
 [2018-01-16 17:37:22] Quarantine Report
 [quarantined_account] low: 0, high: 0, avg: 0.0, total: 0, Failed: 0.0%, no_result: 0, reported: 4
@@ -239,6 +255,39 @@ possible.</p>
 }
 </pre></div>
 </div>
+<p>The second report is more detailed:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -qd
+[2018-06-08 16:57:25] Quarantine Detail Report
+4/4 hosts matched, 0 error[s] while checking hosts.
+objects-2
+  127.0.0.1:6020
+    sdb2
+      8c92b619123b4cef80885156b55f59b5-f0467a28-cc0f-73cc-6e70-97f07dfc07f9 /AUTH_test/container2/image.png
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -qd -json
+{
+    &quot;Name&quot;: &quot;Quarantine Detail Report&quot;,
+    &quot;Time&quot;: &quot;2018-06-08T16:57:27.812390228Z&quot;,
+    &quot;Pass&quot;: true,
+    &quot;Servers&quot;: 4,
+    &quot;Successes&quot;: 4,
+    &quot;Errors&quot;: null,
+    &quot;TypeToServerToDeviceToItems&quot;: {
+        &quot;objects-2&quot;: {
+            &quot;127.0.0.1:6020&quot;: {
+                &quot;sdb2&quot;: [
+                    {
+                        &quot;NameOnDevice&quot;: &quot;8c92b619123b4cef80885156b55f59b5-f0467a28-cc0f-73cc-6e70-97f07dfc07f9&quot;,
+                        &quot;NameInURL&quot;: &quot;/AUTH_test/container2/image.png&quot;
+                    }
+                ]
+            }
+        }
+    }
+}
+</pre></div>
+</div>
 </div>
 
 
@@ -251,7 +300,7 @@ possible.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="stalledreplicators.html" class="btn btn-neutral float-right" title="Stalled Replicators Report" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="stalledreplicators.html" class="btn btn-neutral float-right" title="Andrewd Replication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="ringmd5.html" class="btn btn-neutral" title="MD5 Report" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

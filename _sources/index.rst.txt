@@ -12,7 +12,7 @@ Welcome to Hummingbird's documentation!
    Hummingbird <self>
    arch/index.rst
    admin/index.rst
-   deployment.md
+   deploy/index.rst
    dev/index.rst
    
 

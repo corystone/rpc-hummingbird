@@ -111,20 +111,23 @@
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html">Hummingbird Monitoring</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#metrics-exposed-by-hummingbird-services">Metrics exposed by Hummingbird services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drivestatus.html">Drive Status Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="async.html">Async Pending Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quarantine.html">Quarantine Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Stalled Replicators Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Andrewd Replication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html#stalled-replicators-report">Stalled Replicators Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationstats.html">Replication Partitions Per Second Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationduration.html">Replication Duration Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timesync.html">Time Sync Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replication-tools.html">Hummingbird Priority Replication Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../deployment.html">So You Want to Deploy Hummingbird</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
 </ul>
 
@@ -204,8 +207,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rings.html#ring-best-practices">Ring Best Practices</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="rings.html#creating-the-initial-rings">Creating the Initial Rings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rings.html#handling-a-device-failure">Handling a Device failure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rings.html#andrewd-device-failure-monitoring">Andrewd Device Failure Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rings.html#manually-handling-a-device-failure">Manually Handling a Device failure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rings.html#adding-or-removing-large-numbers-of-devices">Adding or Removing Large Numbers of Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rings.html#andrewd-ring-distribution">Andrewd Ring Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rings.html#ring-action-report">Ring Action Report</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="monitoring.html">Hummingbird Monitoring</a></li>
@@ -214,6 +220,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="monitoring.html#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drivestatus.html">Drive Status Report</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="drivestatus.html#drive-failures">Drive Failures</a></li>
 </ul>
@@ -222,7 +229,8 @@
 <li class="toctree-l1"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quarantine.html">Quarantine Report</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stalledreplicators.html">Stalled Replicators Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stalledreplicators.html">Andrewd Replication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stalledreplicators.html#stalled-replicators-report">Stalled Replicators Report</a></li>
 <li class="toctree-l1"><a class="reference internal" href="replicationstats.html">Replication Partitions Per Second Report</a></li>
 <li class="toctree-l1"><a class="reference internal" href="replicationduration.html">Replication Duration Report</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timesync.html">Time Sync Report</a></li>
@@ -233,6 +241,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html#debug-logging">Debug Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html#read-affinity">Read Affinity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html#rate-limits">Rate Limits</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>

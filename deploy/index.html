@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Time Sync Report &mdash; Hummingbird v.PR documentation</title>
+  <title>Hummingbird Deployment &mdash; Hummingbird v.PR documentation</title>
   
 
   
@@ -44,9 +44,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Hummingbird v.PR documentation" href="../index.html"/>
-        <link rel="up" title="Hummingbird Cluster Health" href="index.html"/>
-        <link rel="next" title="Hummingbird Priority Replication Tools" href="replication-tools.html"/>
-        <link rel="prev" title="Replication Duration Report" href="replicationduration.html"/> 
+        <link rel="next" title="So You Want to Deploy Hummingbird" href="deployment.html"/>
+        <link rel="prev" title="Tunable Configuration Options" href="../admin/tuning.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -106,29 +105,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Hummingbird</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Hummingbird Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../arch/index.html#supported-hardware">Supported Hardware</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hummingbird Cluster Health</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="rings.html">Ring Managment 101</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rings.html#ring-best-practices">Ring Best Practices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="monitoring.html">Hummingbird Monitoring</a></li>
-<li class="toctree-l2"><a class="reference internal" href="monitoring.html#metrics-exposed-by-hummingbird-services">Metrics exposed by Hummingbird services</a></li>
-<li class="toctree-l2"><a class="reference internal" href="monitoring.html#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="drivestatus.html">Drive Status Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="async.html">Async Pending Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quarantine.html">Quarantine Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Andrewd Replication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html#stalled-replicators-report">Stalled Replicators Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="replicationstats.html">Replication Partitions Per Second Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="replicationduration.html">Replication Duration Report</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Time Sync Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="replication-tools.html">Hummingbird Priority Replication Tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin/index.html">Hummingbird Cluster Health</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hummingbird Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html">So You Want to Deploy Hummingbird</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html">Deployment and Integration with Other Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
 </ul>
 
@@ -174,15 +157,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="index.html">Hummingbird Cluster Health</a> &raquo;</li>
-        
-      <li>Time Sync Report</li>
+      <li>Hummingbird Deployment</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/admin/timesync.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/deploy/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -195,28 +176,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="time-sync-report">
-<h1>Time Sync Report<a class="headerlink" href="#time-sync-report" title="Permalink to this headline">#</a></h1>
-<p>The Time Sync Report ensures that all the servers have relatively close
-time values. If the server times drift quite far from each other, it
-will cause “odd” intermittent write errors where some servers accept a
-write as newer and some feel the write is too old. Server times should
-be corrected immediately and a time sync service like ntp installed.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -time
-[2018-01-16 18:00:13] Time Sync Report
-4/4 hosts matched, 0 error[s] while checking hosts.
-</pre></div>
-</div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -time -json
-{
-    &quot;Name&quot;: &quot;Time Sync Report&quot;,
-    &quot;Time&quot;: &quot;2018-01-16T18:00:17.428365173Z&quot;,
-    &quot;Pass&quot;: true,
-    &quot;Servers&quot;: 4,
-    &quot;Successes&quot;: 4,
-    &quot;Errors&quot;: null
-}
-</pre></div>
+  <div class="section" id="hummingbird-deployment">
+<h1>Hummingbird Deployment<a class="headerlink" href="#hummingbird-deployment" title="Permalink to this headline">#</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">So You Want to Deploy Hummingbird</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html#concepts">Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html#hardware-considerations">Hardware Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html#operating-system-considerations">Operating System Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Deployment and Integration with Other Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#load-balancing">Load Balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#keystone">Keystone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#glance">Glance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="benchmarking.html#sample-benchmarking-routines">Sample benchmarking routines:</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 
@@ -230,10 +210,10 @@ be corrected immediately and a time sync service like ntp installed.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="replication-tools.html" class="btn btn-neutral float-right" title="Hummingbird Priority Replication Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="deployment.html" class="btn btn-neutral float-right" title="So You Want to Deploy Hummingbird" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="replicationduration.html" class="btn btn-neutral" title="Replication Duration Report" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../admin/tuning.html" class="btn btn-neutral" title="Tunable Configuration Options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

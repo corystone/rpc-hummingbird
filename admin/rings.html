@@ -125,27 +125,33 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#ring-best-practices">Ring Best Practices</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#creating-the-initial-rings">Creating the Initial Rings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#handling-a-device-failure">Handling a Device failure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#andrewd-device-failure-monitoring">Andrewd Device Failure Monitoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manually-handling-a-device-failure">Manually Handling a Device failure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#adding-or-removing-large-numbers-of-devices">Adding or Removing Large Numbers of Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#andrewd-ring-distribution">Andrewd Ring Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ring-action-report">Ring Action Report</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html">Hummingbird Monitoring</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#metrics-exposed-by-hummingbird-services">Metrics exposed by Hummingbird services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drivestatus.html">Drive Status Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="async.html">Async Pending Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quarantine.html">Quarantine Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Stalled Replicators Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Andrewd Replication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html#stalled-replicators-report">Stalled Replicators Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationstats.html">Replication Partitions Per Second Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationduration.html">Replication Duration Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timesync.html">Time Sync Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replication-tools.html">Hummingbird Priority Replication Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../deployment.html">So You Want to Deploy Hummingbird</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
 </ul>
 
@@ -344,8 +350,17 @@ rings. An example <code class="docutils literal"><span class="pre">make_rings.sh
 <p>It is <em>very</em> important that you add all nodes and devices to the ring
 before running the rebalance command.</p>
 </div>
-<div class="section" id="handling-a-device-failure">
-<h2>Handling a Device failure<a class="headerlink" href="#handling-a-device-failure" title="Permalink to this headline">#</a></h2>
+<div class="section" id="andrewd-device-failure-monitoring">
+<h2>Andrewd Device Failure Monitoring<a class="headerlink" href="#andrewd-device-failure-monitoring" title="Permalink to this headline">#</a></h2>
+<p>Andrewd will continuously scan for unmounted devices and unreachable
+servers and automatically modify the rings as needed. If a server is
+unreachable for over four hours, Andrewd will remove all its devices
+from the rings, rebalance, and push those rings out to the remaining
+servers. If a device is unmounted for over one hour, that specific
+device will be removed from the rings, rebalanced, and pushed out.</p>
+</div>
+<div class="section" id="manually-handling-a-device-failure">
+<h2>Manually Handling a Device failure<a class="headerlink" href="#manually-handling-a-device-failure" title="Permalink to this headline">#</a></h2>
 <p>If a device has failed and will be replaced in the near future, then no
 ring changes are neccesary. The system will work around the failure and
 replication will copy the data over when the drive is replaced. Note
@@ -383,6 +398,128 @@ this until the weight is at 100%. Do the reverse if you intend on
 removing a large number of devices from the cluster at the same time.</p>
 <p>Note: It is important that you do all of your ring changes before
 running the rebalance command.</p>
+</div>
+<div class="section" id="andrewd-ring-distribution">
+<h2>Andrewd Ring Distribution<a class="headerlink" href="#andrewd-ring-distribution" title="Permalink to this headline">#</a></h2>
+<p>Andrewd will continuously scan the cluster and push out new rings as
+needed. A regular “idle” scan will try to hit every service in the
+cluster once every 10 minutes. This idle scan is mostly in case a older
+server comes back online with an older ring, or an on disk ring get
+corrupted somehow, etc. When the ring is actively changed by Andrewd,
+such as with a detected device failure, the ring scan will run at full
+speed to push the new ring out as quickly as possible.</p>
+</div>
+<div class="section" id="ring-action-report">
+<h2>Ring Action Report<a class="headerlink" href="#ring-action-report" title="Permalink to this headline">#</a></h2>
+<p>Andrewd will record each ring action it takes in its database and you
+can retrieve this information as a report:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -rar
+[2018-06-08 20:12:36] Ring Action Report
+Account Ring:
+    2018-06-08 16:12 rebalanced due to schedule; now settled
+    2018-06-08 20:11 removed unmounted device sdb1 id:0 on server 127.0.0.1:6012
+    2018-06-08 20:11 rebalanced due to downed device sdb1 on 127.0.0.1:6012
+Container Ring:
+    2018-06-08 16:12 rebalanced due to schedule; now settled
+    2018-06-08 20:09 removed unmounted device sdb1 id:0 on server 127.0.0.1:6011
+    2018-06-08 20:09 rebalanced due to downed device sdb1 on 127.0.0.1:6011
+Object Ring 0:
+    2018-06-08 16:12 rebalanced due to schedule; now settled
+    2018-06-08 20:11 removed unmounted device sdb1 id:0 on server 127.0.0.1:6010
+    2018-06-08 20:11 rebalanced due to downed device sdb1 on 127.0.0.1:6010
+Object Ring 1:
+    2018-06-08 16:12 rebalanced due to schedule; now settled
+    2018-06-08 20:11 removed unmounted device sdb1 id:0 on server 127.0.0.1:6010
+    2018-06-08 20:11 rebalanced due to downed device sdb1 on 127.0.0.1:6010
+Object Ring 2:
+    2018-06-08 16:12 rebalanced due to schedule; now settled
+    2018-06-08 20:11 removed unmounted device sdb1 id:0 on server 127.0.0.1:6010
+    2018-06-08 20:11 rebalanced due to downed device sdb1 on 127.0.0.1:6010
+</pre></div>
+</div>
+<p>Once again, the JSON output is more detailed and more machine parseable:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -rar -json
+{
+    &quot;Name&quot;: &quot;Ring Action Report&quot;,
+    &quot;Time&quot;: &quot;2018-06-08T20:11:37.598220043Z&quot;,
+    &quot;Pass&quot;: true,
+    &quot;Errors&quot;: null,
+    &quot;Warnings&quot;: null,
+    &quot;AccountReport&quot;: [
+        {
+            &quot;Time&quot;: &quot;2018-06-08T16:12:45Z&quot;,
+            &quot;Reason&quot;: &quot;rebalanced due to schedule; now settled&quot;
+        },
+        {
+            &quot;Time&quot;: &quot;2018-06-08T20:11:24Z&quot;,
+            &quot;Reason&quot;: &quot;removed unmounted device sdb1 id:0 on server 127.0.0.1:6012&quot;
+        },
+        {
+            &quot;Time&quot;: &quot;2018-06-08T20:11:24Z&quot;,
+            &quot;Reason&quot;: &quot;rebalanced due to downed device sdb1 on 127.0.0.1:6012&quot;
+        }
+    ],
+    &quot;ContainerReport&quot;: [
+        {
+            &quot;Time&quot;: &quot;2018-06-08T16:12:46Z&quot;,
+            &quot;Reason&quot;: &quot;rebalanced due to schedule; now settled&quot;
+        },
+        {
+            &quot;Time&quot;: &quot;2018-06-08T20:09:44Z&quot;,
+            &quot;Reason&quot;: &quot;removed unmounted device sdb1 id:0 on server 127.0.0.1:6011&quot;
+        },
+        {
+            &quot;Time&quot;: &quot;2018-06-08T20:09:44Z&quot;,
+            &quot;Reason&quot;: &quot;rebalanced due to downed device sdb1 on 127.0.0.1:6011&quot;
+        }
+    ],
+    &quot;ObjectReports&quot;: {
+        &quot;0&quot;: [
+            {
+                &quot;Time&quot;: &quot;2018-06-08T16:12:47Z&quot;,
+                &quot;Reason&quot;: &quot;rebalanced due to schedule; now settled&quot;
+            },
+            {
+                &quot;Time&quot;: &quot;2018-06-08T20:11:04Z&quot;,
+                &quot;Reason&quot;: &quot;removed unmounted device sdb1 id:0 on server 127.0.0.1:6010&quot;
+            },
+            {
+                &quot;Time&quot;: &quot;2018-06-08T20:11:04Z&quot;,
+                &quot;Reason&quot;: &quot;rebalanced due to downed device sdb1 on 127.0.0.1:6010&quot;
+            }
+        ],
+        &quot;1&quot;: [
+            {
+                &quot;Time&quot;: &quot;2018-06-08T16:12:51Z&quot;,
+                &quot;Reason&quot;: &quot;rebalanced due to schedule; now settled&quot;
+            },
+            {
+                &quot;Time&quot;: &quot;2018-06-08T20:11:04Z&quot;,
+                &quot;Reason&quot;: &quot;removed unmounted device sdb1 id:0 on server 127.0.0.1:6010&quot;
+            },
+            {
+                &quot;Time&quot;: &quot;2018-06-08T20:11:04Z&quot;,
+                &quot;Reason&quot;: &quot;rebalanced due to downed device sdb1 on 127.0.0.1:6010&quot;
+            }
+        ],
+        &quot;2&quot;: [
+            {
+                &quot;Time&quot;: &quot;2018-06-08T16:12:52Z&quot;,
+                &quot;Reason&quot;: &quot;rebalanced due to schedule; now settled&quot;
+            },
+            {
+                &quot;Time&quot;: &quot;2018-06-08T20:11:04Z&quot;,
+                &quot;Reason&quot;: &quot;removed unmounted device sdb1 id:0 on server 127.0.0.1:6010&quot;
+            },
+            {
+                &quot;Time&quot;: &quot;2018-06-08T20:11:04Z&quot;,
+                &quot;Reason&quot;: &quot;rebalanced due to downed device sdb1 on 127.0.0.1:6010&quot;
+            }
+        ]
+    }
+}
+</pre></div>
+</div>
 </div>
 </div>
 

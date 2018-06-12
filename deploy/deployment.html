@@ -13,7 +13,7 @@
 
   
   
-    <link rel="shortcut icon" href="_static/privatecloud.ico"/>
+    <link rel="shortcut icon" href="../_static/privatecloud.ico"/>
   
   
   
@@ -28,27 +28,28 @@
 
   
   
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
   
-    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
   
-    <link rel="stylesheet" href="_static/bespoke.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bespoke.css" type="text/css" />
   
-    <link rel="stylesheet" href="_static/bolditalic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bolditalic.css" type="text/css" />
   
 
   
         <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Hummingbird v.PR documentation" href="index.html"/>
-        <link rel="next" title="Hummingbird Development" href="dev/index.html"/>
-        <link rel="prev" title="Debugging a single account, container, or object" href="admin/debug-single.html"/> 
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Hummingbird v.PR documentation" href="../index.html"/>
+        <link rel="up" title="Hummingbird Deployment" href="index.html"/>
+        <link rel="next" title="Deployment and Integration with Other Services" href="integration.html"/>
+        <link rel="prev" title="Hummingbird Deployment" href="index.html"/> 
 
   
-  <script src="_static/js/modernizr.min.js"></script>
+  <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -64,12 +65,12 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Hummingbird
+            <a href="../index.html" class="icon icon-home"> Hummingbird
           
 
           
             
-            <img src="_static/privatecloud.png" class="logo" />
+            <img src="../_static/privatecloud.png" class="logo" />
           
           </a>
 
@@ -84,7 +85,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -102,31 +103,31 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Hummingbird</a></li>
-<li class="toctree-l1"><a class="reference internal" href="arch/index.html">Hummingbird Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="arch/index.html#supported-hardware">Supported Hardware</a></li>
-<li class="toctree-l1"><a class="reference internal" href="admin/index.html">Hummingbird Cluster Health</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">So You Want to Deploy Hummingbird</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#the-ring">The Ring</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#replicas">Replicas</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#partitions">Partitions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#minimum-partition-hours">Minimum Partition Hours</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Hummingbird</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Hummingbird Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html#supported-hardware">Supported Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin/index.html">Hummingbird Cluster Health</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hummingbird Deployment</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">So You Want to Deploy Hummingbird</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-ring">The Ring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#zones">Zones</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#zones">Zones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-considerations">Hardware Considerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#storage-nodes">Storage Nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#load-balancing">Load Balancing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#networking">Networking</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#hardware-considerations">Hardware Considerations</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#storage-nodes">Storage Nodes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#load-balancing">Load Balancing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#networking">Networking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operating-system-considerations">Operating System Considerations</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#operating-system-considerations">Operating System Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html">Deployment and Integration with Other Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dev/index.html">Hummingbird Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
 </ul>
 
             
@@ -141,7 +142,7 @@
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Hummingbird</a>
+          <a href="../index.html">Hummingbird</a>
         
       </nav>
 
@@ -169,7 +170,9 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Hummingbird Deployment</a> &raquo;</li>
         
       <li>So You Want to Deploy Hummingbird</li>
     
@@ -177,7 +180,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/deployment.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/deploy/deployment.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -284,10 +287,10 @@ systemd service files may be needed.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="dev/index.html" class="btn btn-neutral float-right" title="Hummingbird Development" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="integration.html" class="btn btn-neutral float-right" title="Deployment and Integration with Other Services" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="admin/debug-single.html" class="btn btn-neutral" title="Debugging a single account, container, or object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Hummingbird Deployment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -317,7 +320,7 @@ systemd service files may be needed.</p>
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
+            URL_ROOT:'../',
             VERSION:'v.PR',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -325,15 +328,15 @@ systemd service files may be needed.</p>
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
 
   
 
   
   
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
   

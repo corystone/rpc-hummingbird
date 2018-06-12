@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Deployment and Integration with Other Services &mdash; Hummingbird v.PR documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/privatecloud.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/bespoke.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/bolditalic.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Hummingbird v.PR documentation" href="../index.html"/>
+        <link rel="up" title="Hummingbird Deployment" href="index.html"/>
+        <link rel="next" title="Benchmarking" href="benchmarking.html"/>
+        <link rel="prev" title="So You Want to Deploy Hummingbird" href="deployment.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Hummingbird
+          
+
+          
+            
+            <img src="../_static/privatecloud.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                v.PR
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Hummingbird</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html">Hummingbird Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arch/index.html#supported-hardware">Supported Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin/index.html">Hummingbird Cluster Health</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hummingbird Deployment</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="deployment.html">So You Want to Deploy Hummingbird</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Deployment and Integration with Other Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#load-balancing">Load Balancing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keystone">Keystone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#glance">Glance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Hummingbird</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Hummingbird Deployment</a> &raquo;</li>
+        
+      <li>Deployment and Integration with Other Services</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/deploy/integration.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="deployment-and-integration-with-other-services">
+<h1>Deployment and Integration with Other Services<a class="headerlink" href="#deployment-and-integration-with-other-services" title="Permalink to this headline">#</a></h1>
+<div class="section" id="load-balancing">
+<h2>Load Balancing<a class="headerlink" href="#load-balancing" title="Permalink to this headline">#</a></h2>
+<p>Load balancers should round robin requests to all hummingbird proxy
+nodes. Load balancers can also test connectivity to a proxy by making an
+HTTP request to <code class="docutils literal"><span class="pre">http://PROXY_IP/healthcheck</span></code>.</p>
+<p>A sample config for HAProxy might look like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">defaults</span>
+        <span class="n">log</span>     <span class="k">global</span>
+        <span class="n">mode</span>    <span class="n">http</span>
+        <span class="n">option</span>  <span class="n">dontlognull</span>
+        <span class="n">option</span> <span class="n">http</span><span class="o">-</span><span class="n">keep</span><span class="o">-</span><span class="n">alive</span>
+        <span class="n">option</span>  <span class="n">tcp</span><span class="o">-</span><span class="n">smart</span><span class="o">-</span><span class="n">accept</span>
+        <span class="n">option</span>  <span class="n">tcp</span><span class="o">-</span><span class="n">smart</span><span class="o">-</span><span class="n">connect</span>
+        <span class="n">option</span>  <span class="n">accept</span><span class="o">-</span><span class="n">invalid</span><span class="o">-</span><span class="n">http</span><span class="o">-</span><span class="n">response</span>
+        <span class="n">option</span> <span class="n">splice</span><span class="o">-</span><span class="n">auto</span>
+        <span class="n">timeout</span> <span class="n">connect</span> <span class="mi">5000</span>
+        <span class="n">timeout</span> <span class="n">client</span>  <span class="mi">90000</span>
+        <span class="n">timeout</span> <span class="n">server</span>  <span class="mi">90000</span>
+        <span class="n">retries</span> <span class="mi">3</span>
+        <span class="n">errorfile</span> <span class="mi">400</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">haproxy</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="mf">400.</span><span class="n">http</span>
+        <span class="n">errorfile</span> <span class="mi">403</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">haproxy</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="mf">403.</span><span class="n">http</span>
+        <span class="n">errorfile</span> <span class="mi">408</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">haproxy</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="mf">408.</span><span class="n">http</span>
+        <span class="n">errorfile</span> <span class="mi">500</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">haproxy</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="mf">500.</span><span class="n">http</span>
+        <span class="n">errorfile</span> <span class="mi">502</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">haproxy</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="mf">502.</span><span class="n">http</span>
+        <span class="n">errorfile</span> <span class="mi">503</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">haproxy</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="mf">503.</span><span class="n">http</span>
+        <span class="n">errorfile</span> <span class="mi">504</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">haproxy</span><span class="o">/</span><span class="n">errors</span><span class="o">/</span><span class="mf">504.</span><span class="n">http</span>
+
+<span class="n">listen</span> <span class="n">swift_proxy_cluster</span>
+        <span class="n">bind</span> <span class="mf">10.2</span><span class="o">.</span><span class="mf">2.10</span><span class="p">:</span><span class="mi">80</span>
+        <span class="n">balance</span>  <span class="n">roundrobin</span>
+        <span class="n">maxconn</span> <span class="mi">2000000</span>
+        <span class="n">option</span>  <span class="n">tcpka</span>
+        <span class="n">option</span>  <span class="n">forwardfor</span>
+        <span class="n">option</span>  <span class="n">http</span><span class="o">-</span><span class="n">keep</span><span class="o">-</span><span class="n">alive</span>
+        <span class="n">timeout</span> <span class="n">http</span><span class="o">-</span><span class="n">keep</span><span class="o">-</span><span class="n">alive</span> <span class="mi">6000</span>
+        <span class="n">server</span> <span class="n">storage1</span><span class="o">-</span><span class="n">z1</span><span class="o">.</span><span class="n">awesomestorage</span><span class="o">.</span><span class="n">com</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">1.113</span><span class="p">:</span><span class="mi">8080</span> <span class="n">check</span> <span class="n">inter</span> <span class="mi">2000</span> <span class="n">rise</span> <span class="mi">2</span> <span class="n">fall</span> <span class="mi">5</span>
+        <span class="n">server</span> <span class="n">storage1</span><span class="o">-</span><span class="n">z2</span><span class="o">.</span><span class="n">awesomestorage</span><span class="o">.</span><span class="n">com</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">1.114</span><span class="p">:</span><span class="mi">8080</span> <span class="n">check</span> <span class="n">inter</span> <span class="mi">2000</span> <span class="n">rise</span> <span class="mi">2</span> <span class="n">fall</span> <span class="mi">5</span>
+        <span class="n">server</span> <span class="n">storage1</span><span class="o">-</span><span class="n">z3</span><span class="o">.</span><span class="n">awesomestorage</span><span class="o">.</span><span class="n">com</span> <span class="mf">10.1</span><span class="o">.</span><span class="mf">1.115</span><span class="p">:</span><span class="mi">8080</span> <span class="n">check</span> <span class="n">inter</span> <span class="mi">2000</span> <span class="n">rise</span> <span class="mi">2</span> <span class="n">fall</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="keystone">
+<h2>Keystone<a class="headerlink" href="#keystone" title="Permalink to this headline">#</a></h2>
+<p>An object store endpoint that points to the hummingbird cluster needs to
+be created in Keystone. For a cluster that has a public IP of
+<code class="docutils literal"><span class="pre">10.2.2.10</span></code> and private IP space of <code class="docutils literal"><span class="pre">10.1.1.10</span></code> the commands might
+look like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">openstack</span> <span class="n">service</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">swift</span> <span class="o">--</span><span class="n">description</span> <span class="s2">&quot;Object Storage Service&quot;</span> <span class="nb">object</span><span class="o">-</span><span class="n">store</span>
+<span class="n">openstack</span> <span class="n">endpoint</span> <span class="n">create</span> <span class="o">--</span><span class="n">region</span> <span class="n">RegionOne</span> <span class="n">swift</span> <span class="n">public</span> <span class="s2">&quot;$HTTP://10.2.2.10/v1/AUTH_\$(tenant_id)s</span>
+<span class="n">openstack</span> <span class="n">endpoint</span> <span class="n">create</span> <span class="o">--</span><span class="n">region</span> <span class="n">RegionOne</span> <span class="n">swift</span> <span class="n">internal</span> <span class="s2">&quot;$HTTP://10.1.1.10/v1/AUTH_\$(tenant_id)s&quot;</span>
+<span class="n">openstack</span> <span class="n">endpoint</span> <span class="n">create</span> <span class="o">--</span><span class="n">region</span> <span class="n">RegionOne</span> <span class="n">swift</span> <span class="n">admin</span> <span class="s2">&quot;$HTTP://10.1.1.10/v1&quot;</span>
+</pre></div>
+</div>
+<p>A service account will need to be created that allows Hummingbird to
+make calls to Keystone to authenticate requests.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">enstack</span> <span class="n">project</span> <span class="n">create</span> <span class="n">service</span>  <span class="o">--</span><span class="n">domain</span> <span class="n">default</span>
+<span class="n">openstack</span> <span class="n">user</span> <span class="n">create</span> <span class="o">--</span><span class="n">domain</span> <span class="n">default</span> <span class="o">--</span><span class="n">password</span> <span class="n">password</span>  <span class="o">--</span><span class="n">project</span> <span class="n">service</span> <span class="n">swift</span>
+<span class="n">openstack</span> <span class="n">role</span> <span class="n">add</span> <span class="o">--</span><span class="n">project</span> <span class="n">service</span> <span class="o">--</span><span class="n">user</span> <span class="n">swift</span> <span class="n">admin</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="glance">
+<h2>Glance<a class="headerlink" href="#glance" title="Permalink to this headline">#</a></h2>
+<p>Here are sample glance configs to use hummingbird as the backend store:</p>
+<p><code class="docutils literal"><span class="pre">glance-api.conf</span></code></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">glance_store</span><span class="p">]</span>
+
+<span class="n">stores</span> <span class="o">=</span> <span class="n">swift</span>
+<span class="n">default_store</span> <span class="o">=</span> <span class="n">swift</span>
+<span class="n">default_swift_reference</span> <span class="o">=</span> <span class="n">ref1</span>
+<span class="n">swift_store_create_container_on_put</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">swift_store_config_file</span> <span class="o">=</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">glance</span><span class="o">/</span><span class="n">glance</span><span class="o">-</span><span class="n">swift</span><span class="o">-</span><span class="n">store</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">glance-swift-store.conf</span></code></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ref1</span><span class="p">]</span>
+<span class="n">user_domain_id</span> <span class="o">=</span> <span class="n">default</span>
+<span class="n">project_domain_id</span> <span class="o">=</span> <span class="n">default</span>
+<span class="n">auth_version</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">auth_address</span> <span class="o">=</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">10.2</span><span class="o">.</span><span class="mf">2.15</span><span class="o">/</span><span class="n">v3</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">your</span><span class="o">-</span><span class="n">password</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">service</span><span class="p">:</span><span class="n">glance</span><span class="o">-</span><span class="n">swift</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="benchmarking.html" class="btn btn-neutral float-right" title="Benchmarking" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="deployment.html" class="btn btn-neutral" title="So You Want to Deploy Hummingbird" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Rackspace.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'v.PR',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

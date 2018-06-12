@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Hummingbird Development &mdash; Hummingbird v.PR documentation</title>
+  <title>CLIs and SDKs &mdash; Hummingbird v.PR documentation</title>
   
 
   
@@ -44,8 +44,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Hummingbird v.PR documentation" href="../index.html"/>
-        <link rel="next" title="Running tempest against HAIO" href="tempest.html"/>
-        <link rel="prev" title="Benchmarking" href="../deploy/benchmarking.html"/> 
+        <link rel="up" title="Hummingbird Development" href="index.html"/>
+        <link rel="prev" title="How to enable TLS for Hummingbird" href="tls.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -107,10 +107,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../arch/index.html#supported-hardware">Supported Hardware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../admin/index.html">Hummingbird Cluster Health</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Hummingbird Development</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hummingbird Development</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="tempest.html">Running tempest against HAIO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tls.html">How to enable TLS for Hummingbird</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clisdk.html">CLIs and SDKs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CLIs and SDKs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clis-command-line-interfaces">CLIs - Command Line Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sdks-software-development-kits">SDKs - Software Development Kits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#benchmarking">Benchmarking</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -157,13 +162,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Hummingbird Development</li>
+          <li><a href="index.html">Hummingbird Development</a> &raquo;</li>
+        
+      <li>CLIs and SDKs</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/dev/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/dev/clisdk.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -176,25 +183,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="hummingbird-development">
-<h1>Hummingbird Development<a class="headerlink" href="#hummingbird-development" title="Permalink to this headline">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tempest.html">Running tempest against HAIO</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tls.html">How to enable TLS for Hummingbird</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tls.html#generate-tls-cert">Generate tls cert</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tls.html#copy-update-the-ca-crt-to-system-cert-directory">Copy &amp; update the ca.crt to system cert directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tls.html#copy-hummingbird-keys-to-etc-hummingbird">Copy hummingbird keys to /etc/hummingbird</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tls.html#create-new-ring-with-https-scheme">Create new ring with https Scheme</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="clisdk.html">CLIs and SDKs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="clisdk.html#clis-command-line-interfaces">CLIs - Command Line Interfaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clisdk.html#sdks-software-development-kits">SDKs - Software Development Kits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clisdk.html#benchmarking">Benchmarking</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="clis-and-sdks">
+<h1>CLIs and SDKs<a class="headerlink" href="#clis-and-sdks" title="Permalink to this headline">#</a></h1>
+<p>Hummingbird is API compatible with OpenStack Swift, so most client
+command line tools and software development kits will work unchanged
+against a Hummingbird cluster.</p>
+<div class="section" id="clis-command-line-interfaces">
+<h2>CLIs - Command Line Interfaces<a class="headerlink" href="#clis-command-line-interfaces" title="Permalink to this headline">#</a></h2>
+<p>Hummingbird comes with the Nectar client, built-in as the subcommand
+<code class="docutils literal"><span class="pre">hummingbird</span> <span class="pre">nectar</span></code> and at <a class="reference external" href="https://github.com/troubling/nectar">https://github.com/troubling/nectar</a> as its
+own codebase.</p>
+<p>Since it is OpenStack API compatible, you can also use tools like
+<a class="reference external" href="https://github.com/gholt/swiftly">https://github.com/gholt/swiftly</a> and the
+<a class="reference external" href="https://github.com/openstack/python-swiftclient">https://github.com/openstack/python-swiftclient</a> default <code class="docutils literal"><span class="pre">swift</span></code> tool.</p>
+<p>In addition, the hummingbird executable has many other subcommands
+useful while developing, such as <code class="docutils literal"><span class="pre">hummingbird</span> <span class="pre">nodes</span></code> to list devices
+for items. Run <code class="docutils literal"><span class="pre">hummingbird</span></code> with no parameters for full help text.</p>
+</div>
+<div class="section" id="sdks-software-development-kits">
+<h2>SDKs - Software Development Kits<a class="headerlink" href="#sdks-software-development-kits" title="Permalink to this headline">#</a></h2>
+<p>Once again, Nectar offers a new SDK for Go located at
+<a class="reference external" href="https://github.com/troubling/nectar">https://github.com/troubling/nectar</a> which you can build your own tools
+from. The Nectar CLI tool is an example of how to do this.</p>
+<p>Other OpenStack Swift SDKs should work perfectly fine with Hummingbird
+as well, such as <a class="reference external" href="https://github.com/gholt/swiftly">https://github.com/gholt/swiftly</a>
+<a class="reference external" href="http://gophercloud.io/docs/object-storage/">http://gophercloud.io/docs/object-storage/</a> and the default
+<a class="reference external" href="https://github.com/openstack/python-swiftclient">https://github.com/openstack/python-swiftclient</a> Python SDK.</p>
+</div>
+<div class="section" id="benchmarking">
+<h2>Benchmarking<a class="headerlink" href="#benchmarking" title="Permalink to this headline">#</a></h2>
+<p>Nectar comes with some basic benchmarking tools. Run <code class="docutils literal"><span class="pre">nectar</span></code> or
+<code class="docutils literal"><span class="pre">hummingbird</span> <span class="pre">nectar</span></code> with no additional parameters for full help text.
+<code class="docutils literal"><span class="pre">bench-put</span></code> <code class="docutils literal"><span class="pre">-get</span></code> <code class="docutils literal"><span class="pre">-post</span></code> <code class="docutils literal"><span class="pre">-delete</span></code> <code class="docutils literal"><span class="pre">-mixed</span></code> etc.</p>
+<p>In addition, <code class="docutils literal"><span class="pre">hummingbird</span> <span class="pre">bench</span></code> is also included for a slightly
+different way of benchmarking a cluster.</p>
 </div>
 </div>
 
@@ -208,10 +230,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tempest.html" class="btn btn-neutral float-right" title="Running tempest against HAIO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="../deploy/benchmarking.html" class="btn btn-neutral" title="Benchmarking" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tls.html" class="btn btn-neutral" title="How to enable TLS for Hummingbird" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

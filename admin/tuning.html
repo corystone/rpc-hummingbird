@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Async Pending Report &mdash; Hummingbird v.PR documentation</title>
+  <title>Tunable Configuration Options &mdash; Hummingbird v.PR documentation</title>
   
 
   
@@ -45,8 +45,8 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Hummingbird v.PR documentation" href="../index.html"/>
         <link rel="up" title="Hummingbird Cluster Health" href="index.html"/>
-        <link rel="next" title="Dispersion Report" href="dispersion.html"/>
-        <link rel="prev" title="Drive Status Report" href="drivestatus.html"/> 
+        <link rel="next" title="Hummingbird Deployment" href="../deploy/index.html"/>
+        <link rel="prev" title="Debugging a single account, container, or object" href="debug-single.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -114,7 +114,7 @@
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drivestatus.html">Drive Status Report</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Async Pending Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="async.html">Async Pending Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quarantine.html">Quarantine Report</a></li>
@@ -125,7 +125,12 @@
 <li class="toctree-l2"><a class="reference internal" href="timesync.html">Time Sync Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replication-tools.html">Hummingbird Priority Replication Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tunable Configuration Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#debug-logging">Debug Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-affinity">Read Affinity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rate-limits">Rate Limits</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
@@ -176,13 +181,13 @@
         
           <li><a href="index.html">Hummingbird Cluster Health</a> &raquo;</li>
         
-      <li>Async Pending Report</li>
+      <li>Tunable Configuration Options</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/admin/async.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/admin/tuning.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -195,40 +200,56 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="async-pending-report">
-<h1>Async Pending Report<a class="headerlink" href="#async-pending-report" title="Permalink to this headline">#</a></h1>
-<p>The Async Pending Report shows how many updates are waiting to be sent
-to container servers from object servers. A burst of traffic can cause
-these updates to saved to disk to be resent later when the traffic isn’t
-as high. These saved requests are known as Async Pendings. An ever
-increasing number of these indicate a cluster that is overwhelmed or
-possible failures that need to be addressed.</p>
-<p>Note that the JSON output will give counts for each server. This can be
-useful in tracking down an issue. If all servers are relatively equally
-backed up, this can indicate trouble with the container server layer. If
-just one server has nearly all the pending requests, it is probably an
-issue with that server, say, a flakey network interface or route.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -a
-[2018-01-16 17:19:59] Async Pending Report
-[async_pending] low: 0, high: 0, avg: 0.0, total: 0, Failed: 0.0%, no_result: 0, reported: 4
+  <div class="section" id="tunable-configuration-options">
+<h1>Tunable Configuration Options<a class="headerlink" href="#tunable-configuration-options" title="Permalink to this headline">#</a></h1>
+<div class="section" id="debug-logging">
+<h2>Debug Logging<a class="headerlink" href="#debug-logging" title="Permalink to this headline">#</a></h2>
+<p>To turn on verbose debug logging you can set <code class="docutils literal"><span class="pre">log_level</span> <span class="pre">=</span> <span class="pre">DEBUG</span></code> under
+the <code class="docutils literal"><span class="pre">[DEFAULT]</span></code> section of any config file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">DEFAULT</span><span class="p">]</span>
+<span class="n">log_level</span> <span class="o">=</span> <span class="n">DEBUG</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ hummingbird recon -a -json
-{
-    &quot;Name&quot;: &quot;Async Pending Report&quot;,
-    &quot;Time&quot;: &quot;2018-01-16T17:20:09.460534783Z&quot;,
-    &quot;Pass&quot;: true,
-    &quot;Servers&quot;: 4,
-    &quot;Successes&quot;: 4,
-    &quot;Errors&quot;: null,
-    &quot;Stats&quot;: {
-        &quot;127.0.0.1:6010&quot;: 0,
-        &quot;127.0.0.1:6020&quot;: 0,
-        &quot;127.0.0.1:6030&quot;: 0,
-        &quot;127.0.0.1:6040&quot;: 0
-    }
-}
+</div>
+<div class="section" id="read-affinity">
+<h2>Read Affinity<a class="headerlink" href="#read-affinity" title="Permalink to this headline">#</a></h2>
+<p>The proxy server supports Read Affinities which give preference to
+certain devices. By default the proxy server will read from the
+appropriate devices in random order until it has success. However, you
+can set the read affinitity to prefer devices in the same datacenter as
+the proxy server, for example. For this example, assume the proxy server
+is in region 1. You can set in its proxy-server.conf:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">app</span><span class="p">:</span><span class="n">proxy</span><span class="o">-</span><span class="n">server</span><span class="p">]</span>
+<span class="n">read_affinity</span> <span class="o">=</span> <span class="n">r1</span><span class="o">=</span><span class="mi">100</span>
 </pre></div>
+</div>
+<p>And this will prefer reading from devices in region 1, only falling back
+to other regions if necessary.</p>
+<p>You may get even more specific and specify a zone to prefer as well if,
+for example, the proxy server is within that same zone as well as
+region:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">read_affinity</span> <span class="o">=</span> <span class="n">r1z1</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="mi">200</span>
+</pre></div>
+</div>
+<p>The number after the equal sign, 100 and 200 above, are the priority
+values. Lower means higher priority, or first to be used.</p>
+</div>
+<div class="section" id="rate-limits">
+<h2>Rate Limits<a class="headerlink" href="#rate-limits" title="Permalink to this headline">#</a></h2>
+<p>You can set rate limits for certain operations to control how many
+resources are used at once. The <code class="docutils literal"><span class="pre">account_db_max_writes_per_sec</span></code>
+controls how many concurrent container write (PUT POST DELETE)
+operations are allowed per account. The
+<code class="docutils literal"><span class="pre">container_db_max_writes_per_sec</span></code> controls how many concurrent object
+write (PUT POST DELETE COPY) operations are allowed per container.
+Normally you can just leave these unset and let the cluster manage
+itself. But, if you’d like, you can tune these settings in your
+proxy-server.conf like in the following example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">filter</span><span class="p">:</span><span class="n">ratelimit</span><span class="p">]</span>
+<span class="n">account_db_max_writes_per_sec</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">container_db_max_writes_per_sec</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -242,10 +263,10 @@ issue with that server, say, a flakey network interface or route.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="dispersion.html" class="btn btn-neutral float-right" title="Dispersion Report" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../deploy/index.html" class="btn btn-neutral float-right" title="Hummingbird Deployment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="drivestatus.html" class="btn btn-neutral" title="Drive Status Report" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="debug-single.html" class="btn btn-neutral" title="Debugging a single account, container, or object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Stalled Replicators Report &mdash; Hummingbird v.PR documentation</title>
+  <title>Andrewd Replication &mdash; Hummingbird v.PR documentation</title>
   
 
   
@@ -112,20 +112,23 @@
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html">Hummingbird Monitoring</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#metrics-exposed-by-hummingbird-services">Metrics exposed by Hummingbird services</a></li>
 <li class="toctree-l2"><a class="reference internal" href="monitoring.html#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drivestatus.html">Drive Status Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="async.html">Async Pending Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quarantine.html">Quarantine Report</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Stalled Replicators Report</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Andrewd Replication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stalled-replicators-report">Stalled Replicators Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationstats.html">Replication Partitions Per Second Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationduration.html">Replication Duration Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timesync.html">Time Sync Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replication-tools.html">Hummingbird Priority Replication Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../deployment.html">So You Want to Deploy Hummingbird</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
 </ul>
 
@@ -173,7 +176,7 @@
         
           <li><a href="index.html">Hummingbird Cluster Health</a> &raquo;</li>
         
-      <li>Stalled Replicators Report</li>
+      <li>Andrewd Replication</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -192,7 +195,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stalled-replicators-report">
+  <div class="section" id="andrewd-replication">
+<h1>Andrewd Replication<a class="headerlink" href="#andrewd-replication" title="Permalink to this headline">#</a></h1>
+<p>Andrewd will orchestrate replication across the cluster as needed. For
+example, if Andrewd notices a missing dispersion object, it will start
+replication of that partition. If a device fails and is removed from the
+ring, Andrewd will start up replication to rebalance the cluster
+according to ring changes. This works for automated ring changes that
+Andrewd makes itself (via the unmounted monitor for example) and for
+ring changes made via <code class="docutils literal"><span class="pre">hummingbird</span> <span class="pre">ring</span></code> commands. Andrewd constantly
+monitors on the on disk ring files and activates the required
+replication when those ring files change.</p>
+</div>
+<div class="section" id="stalled-replicators-report">
 <h1>Stalled Replicators Report<a class="headerlink" href="#stalled-replicators-report" title="Permalink to this headline">#</a></h1>
 <p>The Stalled Replicators Report gives counts on how many times a
 replication process (one per drive per server) had to be restarted due

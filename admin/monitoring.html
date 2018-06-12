@@ -45,7 +45,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Hummingbird v.PR documentation" href="../index.html"/>
         <link rel="up" title="Hummingbird Cluster Health" href="index.html"/>
-        <link rel="next" title="Drive Status Report" href="drivestatus.html"/>
+        <link rel="next" title="Andrewd Progress Report" href="progress.html"/>
         <link rel="prev" title="Ring Managment 101" href="rings.html"/> 
 
   
@@ -115,20 +115,23 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#prometheus-grafana-alertmanager-installation">Prometheus, Grafana &amp; Alertmanager Installation.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="progress.html">Andrewd Progress Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="drivestatus.html">Drive Status Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="async.html">Async Pending Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dispersion.html">Dispersion Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ringmd5.html">MD5 Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quarantine.html">Quarantine Report</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Stalled Replicators Report</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html">Andrewd Replication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stalledreplicators.html#stalled-replicators-report">Stalled Replicators Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationstats.html">Replication Partitions Per Second Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replicationduration.html">Replication Duration Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="timesync.html">Time Sync Report</a></li>
 <li class="toctree-l2"><a class="reference internal" href="replication-tools.html">Hummingbird Priority Replication Tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debug-single.html">Debugging a single account, container, or object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tuning.html">Tunable Configuration Options</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../deployment.html">So You Want to Deploy Hummingbird</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Hummingbird Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/index.html">Hummingbird Development</a></li>
 </ul>
 
@@ -531,82 +534,236 @@ object server</td>
 </table>
 <table border="1" class="docutils">
 <colgroup>
-<col width="32%" />
-<col width="10%" />
-<col width="57%" />
+<col width="17%" />
+<col width="4%" />
+<col width="78%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Object Replicator
+<tr class="row-odd"><th class="head">Object
+Replicator
 Metrics</th>
-<th class="head">Metri
-cs
-Type</th>
+<th class="head">M
+e
+t
+r
+i
+c
+s
+T
+y
+p
+e</th>
 <th class="head">Description</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>hb_object_replicator
-_200_responses</td>
-<td>count
-er</td>
-<td>Total number of 200 response by
-object replicator</td>
+<tr class="row-even"><td><a href="#id11"><span class="problematic" id="id12">hb_object_</span></a>
+replicator
+_200_respo
+nses</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of 200 response by object replicator</td>
 </tr>
-<tr class="row-odd"><td>hb_object_replicator
-_404_responses</td>
-<td>count
-er</td>
-<td>Total number of 404 response by
-object replicator</td>
+<tr class="row-odd"><td><a href="#id13"><span class="problematic" id="id14">hb_object_</span></a>
+replicator
+_404_respo
+nses</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of 404 response by object replicator</td>
 </tr>
-<tr class="row-even"><td>hb_object_replicator
-_500_responses</td>
-<td>count
-er</td>
-<td>Total number of 500 response by
-object replicator</td>
+<tr class="row-even"><td><a href="#id15"><span class="problematic" id="id16">hb_object_</span></a>
+replicator
+_500_respo
+nses</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of 500 response by object replicator</td>
 </tr>
-<tr class="row-odd"><td>hb_object_replicator
-_GET_requests</td>
-<td>count
-er</td>
-<td>Total number of GET requests received
-by object replicator</td>
+<tr class="row-odd"><td><a href="#id17"><span class="problematic" id="id18">hb_object_</span></a>
+replicator
+_GET_reque
+sts</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of GET requests received by object
+replicator</td>
 </tr>
-<tr class="row-even"><td>hb_object_replicator
-_PUT_requests</td>
-<td>count
-er</td>
-<td>Total number of PUT requests received
-by object replicator</td>
+<tr class="row-even"><td><a href="#id19"><span class="problematic" id="id20">hb_object_</span></a>
+replicator
+_PUT_reque
+sts</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of PUT requests received by object
+replicator</td>
 </tr>
-<tr class="row-odd"><td>hb_object_replicator
-_POST_requests</td>
-<td>count
-er</td>
-<td>Total number of POST requests
-received by object replicator</td>
+<tr class="row-odd"><td><a href="#id21"><span class="problematic" id="id22">hb_object_</span></a>
+replicator
+_POST_requ
+ests</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of POST requests received by object
+replicator</td>
 </tr>
-<tr class="row-even"><td>hb_object_replicator
-_REPCONN_requests</td>
-<td>count
-er</td>
-<td>Total number of REPCONN requests
-received by object replicator</td>
+<tr class="row-even"><td><a href="#id23"><span class="problematic" id="id24">hb_object_</span></a>
+replicator
+_REPCONN_r
+equests</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of REPCONN requests received by object
+replicator</td>
 </tr>
-<tr class="row-odd"><td>hb_object_replicator
-_REPLICATE_requests</td>
-<td>count
-er</td>
-<td>Total number of REPLICATE requests
-received by object replicator</td>
-</tr>
-<tr class="row-even"><td>hb_object_replicator
+<tr class="row-odd"><td><a href="#id25"><span class="problematic" id="id26">hb_object_</span></a>
+replicator
+_REPLICATE
 _requests</td>
-<td>count
-er</td>
-<td>Total number of requests received by
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of REPLICATE requests received by
 object replicator</td>
+</tr>
+<tr class="row-even"><td><a href="#id27"><span class="problematic" id="id28">hb_object_</span></a>
+replicator
+_requests</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of requests received by object
+replicator</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
+<td>Note that for the following metrics {P} represents
+the policy index and {D} represents the device name</td>
+</tr>
+<tr class="row-even"><td><a href="#id29"><span class="problematic" id="id30">hb_object_</span></a>
+replicator
+_{P}_{D}_s
+tabilizati
+on_attempt
+s</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of objects that have had stabilization
+attempted</td>
+</tr>
+<tr class="row-odd"><td><a href="#id31"><span class="problematic" id="id32">hb_object_</span></a>
+replicator
+_{P}_{D}_s
+tabilizati
+on_success
+es</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of stabilization successes</td>
+</tr>
+<tr class="row-even"><td><a href="#id33"><span class="problematic" id="id34">hb_object_</span></a>
+replicator
+_{P}_{D}_s
+tabilizati
+on_failure
+s</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of stabilization failures</td>
+</tr>
+<tr class="row-odd"><td><a href="#id35"><span class="problematic" id="id36">hb_object_</span></a>
+replicator
+_{P}_{D}_s
+tabilizati
+on_last_pa
+ss_count</td>
+<td>c
+o
+u
+n
+t
+e
+r</td>
+<td>Total number of objects that have had stabilization
+attempted on the most recent full pass</td>
+</tr>
+<tr class="row-even"><td><a href="#id37"><span class="problematic" id="id38">hb_object_</span></a>
+replicator
+_{P}_{D}_s
+tabilizati
+on_last_pa
+ss_duratio
+n*</td>
+<td>t
+i
+m
+e
+r</td>
+<td>The elapsed time of stabilization passes.
+<code class="docutils literal"><span class="pre">*_count</span></code> indicates the number of passes done
+since start up. <code class="docutils literal"><span class="pre">*{quantile=&quot;x&quot;}</span></code> give the
+durations per percentile (x can be 0.5 0.75 0.95
+0.99 and 0.999). <code class="docutils literal"><span class="pre">*_sum</span></code> is the total elapsed time
+for all passes since startup.</td>
 </tr>
 </tbody>
 </table>
@@ -784,7 +941,7 @@ er</td>
 <td>Total number of REPLICATE requests
 received by account server.</td>
 </tr>
-<tr class="row-even"><td><a href="#id11"><span class="problematic" id="id12">hb_account_OPTIONS_</span></a>
+<tr class="row-even"><td><a href="#id39"><span class="problematic" id="id40">hb_account_OPTIONS_</span></a>
 requests</td>
 <td>count
 er</td>
@@ -892,7 +1049,7 @@ er</td>
 <td>Total number of tempurl requests
 received by proxy server.</td>
 </tr>
-<tr class="row-even"><td><a href="#id13"><span class="problematic" id="id14">hb_proxy_staticweb_</span></a>
+<tr class="row-even"><td><a href="#id41"><span class="problematic" id="id42">hb_proxy_staticweb_</span></a>
 requests</td>
 <td>count
 er</td>
@@ -941,7 +1098,7 @@ to setup Hummingbird monitoring using Docker.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="drivestatus.html" class="btn btn-neutral float-right" title="Drive Status Report" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="progress.html" class="btn btn-neutral float-right" title="Andrewd Progress Report" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="rings.html" class="btn btn-neutral" title="Ring Managment 101" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
