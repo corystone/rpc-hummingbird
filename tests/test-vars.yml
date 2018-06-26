@@ -78,4 +78,9 @@ maas_notification_plan: npTechnicalContactsEmail
 # Set the MaaS entity to be ansible_hostname instead of inventory_hostname
 maas_entity_name: "{{ ansible_hostname }}{{ maas_fqdn_extension }}"
 # Allow hummingbird services to be inside containers.
-maas_rpc_legacy_hummingbird: True
+maas_rpc_legacy_hummingbird: true
+# Enable the accesscheck
+maas_hummingbird_accesscheck_enabled: true
+maas_hummingbird_accesscheck_password: accesspassword
+maas_external_hostname: 172.29.236.31
+external_lb_vip_address: 172.29.236.100

@@ -1,4 +1,13 @@
 ---
+- hosts: hummingbird-admin
+  user: root
+  tasks:
+    - name: setup openrc
+      template:
+        src: templates/openrc.j2
+        dest: /root/openrc
+        mode: 600
+
 - name: Install Hummingbird Keystone config
   hosts: localhost
   user: root

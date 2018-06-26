@@ -29,3 +29,5 @@ node03          service_ip=172.29.236.33
 
 [benchmark_hosts]
 
+[utility_all:children]
+hummingbird-admin
