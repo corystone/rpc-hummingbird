@@ -3,7 +3,7 @@ Benchmarking
 
 ## Sample benchmarking routines:
 
-These tests were done in our rpclab and are just preliminary raw test results. We had 5 boxes each with an Intel Xeon E5-2640 CPU, 64GB of RAM, and with 45 3TB spinning hard drives and 2 1TB SSD drives. SSDs were used for account and container information and the regular drives were used for object data. It's important to note that we tested on empty systems and it is known that performance will decline the more full the cluster becomes. Further testing should be done on full systems but obviously such tests will take signifcantly more time.
+These tests were done in our rpclab and are just preliminary raw test results. We had 5 boxes running Ubuntu 16.04 each with an Intel Xeon E5-2640 CPU, 64GB of RAM, and with 45 3TB spinning hard drives and 2 1TB SSD drives. SSDs were used for account and container information and the regular drives were used for object data. It's important to note that we tested on empty systems and it is known that performance will decline the more full the cluster becomes. Further testing should be done on full systems but obviously such tests will take signifcantly more time.
 
 ### 4KB
 
@@ -61,3 +61,29 @@ Results:
 7042 DELETE/s - https://transfer.sh/k7cpE/1MB_delete_1strun.txt  
 7246 DELETE/s - https://transfer.sh/a8MxA/1MB_delete_2ndrun.txt  
 4044 mixed/s - https://transfer.sh/rSkgB/1MB_mixed.txt  
+
+## Comparison to other object stores
+
+### Here are same preliminary tests against the same environment running Openstack Swift
+
+### 4KB
+
+Results:
+
+594 PUT/s -  
+470 PUT/s -  
+2909 GET/s -  
+2913 GET/s -  
+856 DELETE/s  
+682 DELETE/s  
+2907 mixed/s  
+
+### 1MB
+
+182 PUT/s -  
+184 PUT/s -  
+811 GET/s -  
+816 GET/s -  
+511 DELETE/s  
+542 DELETE/s  
+2897 mixed/s  

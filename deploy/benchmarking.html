@@ -116,6 +116,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#mb">1MB</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-to-other-object-stores">Comparison to other object stores</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#here-are-same-preliminary-tests-against-the-same-environment-running-openstack-swift">Here are same preliminary tests against the same environment running Openstack Swift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">4KB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">1MB</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -191,13 +197,13 @@
 <div class="section" id="sample-benchmarking-routines">
 <h2>Sample benchmarking routines:<a class="headerlink" href="#sample-benchmarking-routines" title="Permalink to this headline">#</a></h2>
 <p>These tests were done in our rpclab and are just preliminary raw test
-results. We had 5 boxes each with an Intel Xeon E5-2640 CPU, 64GB of
-RAM, and with 45 3TB spinning hard drives and 2 1TB SSD drives. SSDs
-were used for account and container information and the regular drives
-were used for object data. It’s important to note that we tested on
-empty systems and it is known that performance will decline the more
-full the cluster becomes. Further testing should be done on full systems
-but obviously such tests will take signifcantly more time.</p>
+results. We had 5 boxes running Ubuntu 16.04 each with an Intel Xeon
+E5-2640 CPU, 64GB of RAM, and with 45 3TB spinning hard drives and 2 1TB
+SSD drives. SSDs were used for account and container information and the
+regular drives were used for object data. It’s important to note that we
+tested on empty systems and it is known that performance will decline
+the more full the cluster becomes. Further testing should be done on
+full systems but obviously such tests will take signifcantly more time.</p>
 <div class="section" id="kb">
 <h3>4KB<a class="headerlink" href="#kb" title="Permalink to this headline">#</a></h3>
 <div class="highlight-default"><div class="highlight"><pre><span></span>export KEYSTONE=1.2.3.4:5000
@@ -253,6 +259,37 @@ nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing
 <div class="line">7042 DELETE/s - <a class="reference external" href="https://transfer.sh/k7cpE/1MB_delete_1strun.txt">https://transfer.sh/k7cpE/1MB_delete_1strun.txt</a></div>
 <div class="line">7246 DELETE/s - <a class="reference external" href="https://transfer.sh/a8MxA/1MB_delete_2ndrun.txt">https://transfer.sh/a8MxA/1MB_delete_2ndrun.txt</a></div>
 <div class="line">4044 mixed/s - <a class="reference external" href="https://transfer.sh/rSkgB/1MB_mixed.txt">https://transfer.sh/rSkgB/1MB_mixed.txt</a></div>
+</div>
+</div>
+</div>
+<div class="section" id="comparison-to-other-object-stores">
+<h2>Comparison to other object stores<a class="headerlink" href="#comparison-to-other-object-stores" title="Permalink to this headline">#</a></h2>
+<div class="section" id="here-are-same-preliminary-tests-against-the-same-environment-running-openstack-swift">
+<h3>Here are same preliminary tests against the same environment running Openstack Swift<a class="headerlink" href="#here-are-same-preliminary-tests-against-the-same-environment-running-openstack-swift" title="Permalink to this headline">#</a></h3>
+</div>
+<div class="section" id="id1">
+<h3>4KB<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<p>Results:</p>
+<div class="line-block">
+<div class="line">594 PUT/s -</div>
+<div class="line">470 PUT/s -</div>
+<div class="line">2909 GET/s -</div>
+<div class="line">2913 GET/s -</div>
+<div class="line">856 DELETE/s</div>
+<div class="line">682 DELETE/s</div>
+<div class="line">2907 mixed/s</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>1MB<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<div class="line-block">
+<div class="line">182 PUT/s -</div>
+<div class="line">184 PUT/s -</div>
+<div class="line">811 GET/s -</div>
+<div class="line">816 GET/s -</div>
+<div class="line">511 DELETE/s</div>
+<div class="line">542 DELETE/s</div>
+<div class="line">2897 mixed/s</div>
 </div>
 </div>
 </div>
