@@ -1,5 +1,6 @@
 ---
 hbird_keystone: true
+hbird_haproxy: true
 use_temp_auth: false
 auth_uri: "http://{{ internal_lb_vip_address }}:5000"
 auth_url: "http://{{ internal_lb_vip_address }}:35357"
@@ -20,3 +21,8 @@ hbird_keystone_admin_tenant: service
 hbird_service_publicurl: http://172.29.236.31:8080/v1/AUTH_%(tenant_id)s
 hbird_service_internalurl: http://172.29.236.31:8080/v1/AUTH_%(tenant_id)s
 hbird_service_adminurl: http://172.29.236.31:8080/v1/AUTH_%(tenant_id)s
+
+
+hbird_service_publicurl: http://{{ internal_lb_vip_address }}:8080/v1/AUTH_%(tenant_id)s
+hbird_service_internalurl: http://{{ internal_lb_vip_address }}:8080/v1/AUTH_%(tenant_id)s
+hbird_service_adminurl: http://{{ internal_lb_vip_address }}:8080/v1/AUTH_%(tenant_id)s

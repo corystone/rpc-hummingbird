@@ -6,7 +6,10 @@
 - include: setup-hummingbird-disks.yml
 
 - include: ../playbooks/hummingbird-keystone.yml
+  when: hbird_keystone | bool
 - include: ../playbooks/hummingbird-keystone-test.yml
+  when: hbird_keystone | bool
 - include: ../playbooks/deploy-hummingbird.yml
+  when: hbird_haproxy | bool
 
 - include: test-hummingbird-functional.yml

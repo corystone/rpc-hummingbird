@@ -1,3 +1,4 @@
 ---
 hbird_keystone: false
+hbird_haproxy: false
 use_temp_auth: true

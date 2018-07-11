@@ -1,0 +1,14 @@
+# Ansible managed
+
+listen hummingbird_proxy
+    bind {{ internal_lb_vip_address }}:8080 
+    balance  roundrobin
+    maxconn 2000000
+    option  tcpka
+    option  forwardfor
+    option  http-keep-alive
+    timeout http-keep-alive 6000
+{% for host in groups["hummingbird"] %}
+    server {{ host }} {{ hostvars[host].service_ip }}:8081 check inter 2000 rise 2 fall 5
+{% endfor %}
+

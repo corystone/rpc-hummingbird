@@ -1,0 +1,28 @@
+---
+- name: Configure haproxy for hummingbird
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Add conf.d entry
+      template:
+        src: hummingbird_proxy.j2
+        dest: /etc/haproxy/conf.d/hummingbird_proxy
+
+    - name: Regenerate haproxy configuration
+      assemble:
+        src: "/etc/haproxy/conf.d"
+        dest: "/etc/haproxy/haproxy.cfg"
+
+    - name: Restart haproxy
+      service:
+        name: "haproxy"
+        state: "restarted"
+        enabled: yes
+        daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
+
+    - name: Restart rsyslog
+      service:
+        name: "rsyslog"
+        state: "restarted"
+        enabled: yes
+        daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
