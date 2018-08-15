@@ -85,3 +85,9 @@ auth_address = http://10.2.2.15/v3
 key = your-password
 user = service:glance-swift
 ```
+
+## RPC MaaS
+
+The MaaS deploy will need to have the a utility group in the inventory to get openrc creds from.
+
+For the AIO, we generate openrc on the hummingbird admin boxes and set that as the utility group.

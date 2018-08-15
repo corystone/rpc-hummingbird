@@ -111,17 +111,55 @@
 <li class="toctree-l2"><a class="reference internal" href="deployment.html">So You Want to Deploy Hummingbird</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integration.html">Deployment and Integration with Other Services</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Benchmarking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sample-benchmarking-routines">Sample benchmarking routines:</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#kb">4KB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#mb">1MB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kb-test-script">4KB Test script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mb-test-script">1MB Test Script</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#comparison-to-other-object-stores">Comparison to other object stores</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#here-are-same-preliminary-tests-against-the-same-environment-running-openstack-swift">Here are same preliminary tests against the same environment running Openstack Swift</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id1">4KB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id2">1MB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#results-from-old-hummingbird-lab">Results from Old Hummingbird lab.</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kb-objects">4 KB Objects:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mb-objects">1 MB Objects:</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#results-from-the-new-hummingbird-lab">Results from the New Hummingbird Lab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1 MB objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nodes-test-results">4 Nodes Test Results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">1 MB objects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#results-from-ceph-performance-lab">Results from Ceph Performance lab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">1 MB objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nodes-results">5 Nodes Results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">1 MB objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">4 Nodes Results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">1 MB objects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#results-from-ceph-capacity-lab">Results from Ceph Capacity lab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id12">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">1 MB objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">5 Nodes Results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">1 MB objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id17">4 Nodes Results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">4 KB objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">1 MB objects</a></li>
 </ul>
 </li>
 </ul>
@@ -194,18 +232,8 @@
             
   <div class="section" id="benchmarking">
 <h1>Benchmarking<a class="headerlink" href="#benchmarking" title="Permalink to this headline">#</a></h1>
-<div class="section" id="sample-benchmarking-routines">
-<h2>Sample benchmarking routines:<a class="headerlink" href="#sample-benchmarking-routines" title="Permalink to this headline">#</a></h2>
-<p>These tests were done in our rpclab and are just preliminary raw test
-results. We had 5 boxes running Ubuntu 16.04 each with an Intel Xeon
-E5-2640 CPU, 64GB of RAM, and with 45 3TB spinning hard drives and 2 1TB
-SSD drives. SSDs were used for account and container information and the
-regular drives were used for object data. It’s important to note that we
-tested on empty systems and it is known that performance will decline
-the more full the cluster becomes. Further testing should be done on
-full systems but obviously such tests will take signifcantly more time.</p>
-<div class="section" id="kb">
-<h3>4KB<a class="headerlink" href="#kb" title="Permalink to this headline">#</a></h3>
+<div class="section" id="kb-test-script">
+<h2>4KB Test script<a class="headerlink" href="#kb-test-script" title="Permalink to this headline">#</a></h2>
 <div class="highlight-default"><div class="highlight"><pre><span></span>export KEYSTONE=1.2.3.4:5000
 nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 250 bench-put    -containers 100 -count 10000000 -size 4096    -csv bench4KBput1.csv    bench-ec-kb-1-       2&gt;&amp;1 | tee big-test-ec-kb-put-1-
 sleep 300
@@ -218,23 +246,11 @@ sleep 900
 nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 250 bench-delete -containers 100 -count 10000000               -csv bench4KBdelete1.csv bench-ec-kb-1-       2&gt;&amp;1 | tee big-test-ec-kb-delete-1-
 sleep 300
 nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 250 bench-delete -containers 100 -count 10000000               -csv bench4KBdelete2.csv bench-ec-kb-2-       2&gt;&amp;1 | tee big-test-ec-kb-delete-2-
-sleep 900
-nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 50  bench-mixed  -containers 100      -size 4096 -time 2h      -csv bench4KBmixed1.csv  bench-ec-kb-mixed-2- 2&gt;&amp;1 | tee big-test-ec-kb-mixed-1-
 </pre></div>
 </div>
-<p>Results:</p>
-<div class="line-block">
-<div class="line">4970 PUT/s - <a class="reference external" href="https://transfer.sh/KIKEH/4KB_put_1strun.txt">https://transfer.sh/KIKEH/4KB_put_1strun.txt</a></div>
-<div class="line">2193 PUT/s - <a class="reference external" href="https://transfer.sh/WW7eF/4KB_put_2ndrun.txt">https://transfer.sh/WW7eF/4KB_put_2ndrun.txt</a></div>
-<div class="line">17162 GET/s - <a class="reference external" href="https://transfer.sh/xN71C/4KB_get_1strun.txt">https://transfer.sh/xN71C/4KB_get_1strun.txt</a></div>
-<div class="line">20718 GET/s - <a class="reference external" href="https://transfer.sh/9p6Vk/4KB_get_2ndrun.txt">https://transfer.sh/9p6Vk/4KB_get_2ndrun.txt</a></div>
-<div class="line">7183 DELETE/s - <a class="reference external" href="https://transfer.sh/MAbFd/4KB_delete_1strun.txt">https://transfer.sh/MAbFd/4KB_delete_1strun.txt</a></div>
-<div class="line">7380 DELETE/s - <a class="reference external" href="https://transfer.sh/sv21h/4KB_delete_2ndrun.txt">https://transfer.sh/sv21h/4KB_delete_2ndrun.txt</a></div>
-<div class="line">7405 mixed/s - <a class="reference external" href="https://transfer.sh/8ONBL/4KB_mixed.txt">https://transfer.sh/8ONBL/4KB_mixed.txt</a></div>
 </div>
-</div>
-<div class="section" id="mb">
-<h3>1MB<a class="headerlink" href="#mb" title="Permalink to this headline">#</a></h3>
+<div class="section" id="mb-test-script">
+<h2>1MB Test Script<a class="headerlink" href="#mb-test-script" title="Permalink to this headline">#</a></h2>
 <div class="highlight-default"><div class="highlight"><pre><span></span>nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 250 bench-put    -containers 100 -count 1000000 -size 1048576 -csv bench1MBput1.csv bench-ec-mb-1-         2&gt;&amp;1 | tee big-test-ec-mb-put-1-
 sleep 300
 nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 250 bench-put    -containers 100 -count 1000000 -size 1048576 -csv bench1MBput2.csv bench-ec-mb-2-         2&gt;&amp;1 | tee big-test-ec-mb-put-2-
@@ -246,52 +262,872 @@ sleep 900
 nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 250 bench-delete -containers 100 -count 1000000               -csv bench1MBdelete1.csv bench-ec-mb-1-      2&gt;&amp;1 | tee big-test-ec-mb-delete-1-
 sleep 300
 nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 250 bench-delete -containers 100 -count 1000000               -csv bench1MBdelete2.csv bench-ec-mb-2-      2&gt;&amp;1 | tee big-test-ec-mb-delete-2-
-sleep 900
-nectar -continue-on-error -A http://${KEYSTONE}/v3/ -T test -U tester -P testing -C 50  bench-mixed  -containers 100    -size 1048576 -time 2h    -csv bench1MBmixed1.csv bench-ec-mb-mixed-2- 2&gt;&amp;1 | tee big-test-ec-mb-mixed-1-
 </pre></div>
 </div>
-<p>Results:</p>
-<div class="line-block">
-<div class="line">720 PUT/s - <a class="reference external" href="https://transfer.sh/SXyIy/1MB_put_1strun.txt">https://transfer.sh/SXyIy/1MB_put_1strun.txt</a></div>
-<div class="line">719 PUT/s - <a class="reference external" href="https://transfer.sh/1ovpN/1MB_put_2ndrun.txt">https://transfer.sh/1ovpN/1MB_put_2ndrun.txt</a></div>
-<div class="line">898 GET/s - <a class="reference external" href="https://transfer.sh/z1Mco/1MB_get_1strun.txt">https://transfer.sh/z1Mco/1MB_get_1strun.txt</a></div>
-<div class="line">898 GET/s - <a class="reference external" href="https://transfer.sh/JR2pI/1MB_get_2ndrun.txt">https://transfer.sh/JR2pI/1MB_get_2ndrun.txt</a></div>
-<div class="line">7042 DELETE/s - <a class="reference external" href="https://transfer.sh/k7cpE/1MB_delete_1strun.txt">https://transfer.sh/k7cpE/1MB_delete_1strun.txt</a></div>
-<div class="line">7246 DELETE/s - <a class="reference external" href="https://transfer.sh/a8MxA/1MB_delete_2ndrun.txt">https://transfer.sh/a8MxA/1MB_delete_2ndrun.txt</a></div>
-<div class="line">4044 mixed/s - <a class="reference external" href="https://transfer.sh/rSkgB/1MB_mixed.txt">https://transfer.sh/rSkgB/1MB_mixed.txt</a></div>
+</div>
+</div>
+<div class="section" id="results-from-old-hummingbird-lab">
+<h1>Results from Old Hummingbird lab.<a class="headerlink" href="#results-from-old-hummingbird-lab" title="Permalink to this headline">#</a></h1>
+<p>These tests were done in our rpclab and are just preliminary raw test
+results. We had 5 boxes running Ubuntu 16.04 each with an Intel Xeon
+E5-2640 CPU, 64GB of RAM, and with 45 3TB spinning hard drives and 2 1TB
+SSD drives. SSDs were used for account and container information and the
+regular drives were used for object data. It’s important to note that we
+tested on empty systems and it is known that performance will decline
+the more full the cluster becomes. Further testing should be done on
+full systems but obviously such tests will take signifcantly more time.</p>
+<div class="section" id="kb-objects">
+<h2>4 KB Objects:<a class="headerlink" href="#kb-objects" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="25%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+<th class="head">Swift</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>4970</td>
+<td>1397</td>
+<td>594</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>2193</td>
+<td>1362</td>
+<td>470</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>17162</td>
+<td>3230</td>
+<td>2909</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>20718</td>
+<td>2832</td>
+<td>2913</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>7183</td>
+<td>1208</td>
+<td>856</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>7380</td>
+<td>936</td>
+<td>682</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="mb-objects">
+<h3>1 MB Objects:<a class="headerlink" href="#mb-objects" title="Permalink to this headline">#</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="25%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+<th class="head">Swift</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>720</td>
+<td>685</td>
+<td>182</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>719</td>
+<td>777</td>
+<td>184</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>898</td>
+<td>955</td>
+<td>811</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>898</td>
+<td>953</td>
+<td>816</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>7042</td>
+<td>1647</td>
+<td>511</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>7246</td>
+<td>1552</td>
+<td>542</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="section" id="comparison-to-other-object-stores">
-<h2>Comparison to other object stores<a class="headerlink" href="#comparison-to-other-object-stores" title="Permalink to this headline">#</a></h2>
-<div class="section" id="here-are-same-preliminary-tests-against-the-same-environment-running-openstack-swift">
-<h3>Here are same preliminary tests against the same environment running Openstack Swift<a class="headerlink" href="#here-are-same-preliminary-tests-against-the-same-environment-running-openstack-swift" title="Permalink to this headline">#</a></h3>
+<div class="section" id="results-from-the-new-hummingbird-lab">
+<h1>Results from the New Hummingbird Lab<a class="headerlink" href="#results-from-the-new-hummingbird-lab" title="Permalink to this headline">#</a></h1>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Model</span><span class="p">:</span> <span class="n">HP</span> <span class="n">DL380</span> <span class="n">Gen9</span> <span class="n">LFF</span> <span class="o">-</span> <span class="mf">3.5</span><span class="s2">&quot; Chassis</span>
+<span class="n">Processor</span><span class="p">:</span> <span class="n">Dual</span> <span class="n">Socket</span> <span class="n">Octo</span> <span class="n">Core</span> <span class="n">Intel</span> <span class="n">Xeon</span> <span class="n">E5</span><span class="o">-</span><span class="mi">2630</span> <span class="mf">2.40</span> <span class="n">Ghz</span>
+<span class="n">Memory</span><span class="p">:</span> <span class="mi">128</span> <span class="n">GB</span>
+<span class="n">Onboard</span> <span class="n">NIC</span><span class="p">:</span> <span class="n">HP</span> <span class="mi">561</span><span class="o">-</span><span class="n">T</span> <span class="n">Dual</span> <span class="n">Port</span> <span class="mi">10</span><span class="n">GbE</span> <span class="n">Base</span><span class="o">-</span><span class="n">T</span> <span class="n">PCIe</span> <span class="n">NIC</span> <span class="p">(</span><span class="n">RJ</span><span class="o">-</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">Additional</span> <span class="n">NIC</span><span class="p">:</span> <span class="n">HP</span> <span class="mi">561</span><span class="o">-</span><span class="n">T</span> <span class="n">Dual</span> <span class="n">Port</span> <span class="mi">10</span><span class="n">GbE</span> <span class="n">Base</span><span class="o">-</span><span class="n">T</span> <span class="n">PCIe</span> <span class="n">NIC</span> <span class="p">(</span><span class="n">RJ</span><span class="o">-</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">Drives</span><span class="p">:</span> <span class="mi">2</span><span class="n">x</span> <span class="mi">600</span> <span class="n">GB</span> <span class="n">SAS</span><span class="p">(</span><span class="n">OS</span><span class="p">),</span> <span class="mi">10</span><span class="n">x</span> <span class="mi">960</span><span class="n">GB</span> <span class="n">SSD</span> <span class="p">(</span><span class="n">MU</span><span class="p">)</span>
+<span class="n">RAID</span> <span class="n">Adapter</span><span class="p">:</span> <span class="n">PMC</span> <span class="mi">8885</span><span class="n">Q</span> <span class="p">(</span><span class="n">IT</span> <span class="n">Mode</span><span class="p">)</span>
+
+<span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="n">JBODs</span><span class="p">,</span> <span class="n">loaded</span> <span class="k">with</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disk</span> <span class="n">drive</span> <span class="n">configuration</span><span class="p">:</span>
+<span class="n">JBOD</span><span class="p">:</span> <span class="mi">1</span><span class="n">x</span> <span class="n">Supermicro</span> <span class="mi">45</span> <span class="n">Bay</span>
+<span class="mi">45</span><span class="n">x</span> <span class="mi">10</span><span class="n">TB</span> <span class="n">SATA</span> <span class="n">Drives</span> <span class="ow">in</span> <span class="n">SuperMicro</span> <span class="n">JBOD</span>
+</pre></div>
 </div>
+<p>We ran the same set of 4KB &amp; 1MB benchtests mentioned above.</p>
 <div class="section" id="id1">
-<h3>4KB<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
-<p>Results:</p>
-<div class="line-block">
-<div class="line">594 PUT/s -</div>
-<div class="line">470 PUT/s -</div>
-<div class="line">2909 GET/s -</div>
-<div class="line">2913 GET/s -</div>
-<div class="line">856 DELETE/s</div>
-<div class="line">682 DELETE/s</div>
-<div class="line">2907 mixed/s</div>
-</div>
+<h2>4 KB objects<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="25%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+<th class="head">Swift</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>10395</td>
+<td>3525</td>
+<td>890</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>8985</td>
+<td>5764</td>
+<td>928</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>16207</td>
+<td>8576</td>
+<td>4208</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>16146</td>
+<td>8058</td>
+<td>4407</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>9225</td>
+<td>5440</td>
+<td>656</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>9157</td>
+<td>5316</td>
+<td>517</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="id2">
-<h3>1MB<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
-<div class="line-block">
-<div class="line">182 PUT/s -</div>
-<div class="line">184 PUT/s -</div>
-<div class="line">811 GET/s -</div>
-<div class="line">816 GET/s -</div>
-<div class="line">511 DELETE/s</div>
-<div class="line">542 DELETE/s</div>
-<div class="line">2897 mixed/s</div>
+<h2>1 MB objects<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="25%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1MB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+<th class="head">Swift</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>820</td>
+<td>778</td>
+<td>477</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>862</td>
+<td>781</td>
+<td>492</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>818</td>
+<td>619</td>
+<td>602</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>855</td>
+<td>694</td>
+<td>760</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>9434</td>
+<td>6211</td>
+<td>512</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>9709</td>
+<td>6410</td>
+<td>433</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="nodes-test-results">
+<h3>4 Nodes Test Results<a class="headerlink" href="#nodes-test-results" title="Permalink to this headline">#</a></h3>
 </div>
 </div>
+<div class="section" id="id3">
+<h2>4 KB objects<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4KB 4 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>9625</td>
+<td>5027</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>7062</td>
+<td>4014</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>12931</td>
+<td>4780</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>12815</td>
+<td>4726</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>6770</td>
+<td>3878</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>7097</td>
+<td>3834</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h2>1 MB objects<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 4 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>807</td>
+<td>759</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>798</td>
+<td>765</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>795</td>
+<td>745</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>779</td>
+<td>677</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>5747</td>
+<td>4065</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>7299</td>
+<td>4032</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="results-from-ceph-performance-lab">
+<h1>Results from Ceph Performance lab<a class="headerlink" href="#results-from-ceph-performance-lab" title="Permalink to this headline">#</a></h1>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HARDWARE</span>
+<span class="o">========</span>
+<span class="n">Chassis</span> <span class="o">-</span> <span class="n">Proliant</span> <span class="n">DL380</span> <span class="n">Gen9</span>
+<span class="n">CPU</span>     <span class="o">-</span> <span class="mi">2</span> <span class="n">x</span> <span class="n">Intel</span> <span class="n">Xeon</span> <span class="n">E5</span><span class="o">-</span><span class="mi">2630</span> <span class="mi">8</span> <span class="n">core</span> <span class="mf">2.4</span><span class="n">GHz</span>
+<span class="n">Memory</span>  <span class="o">-</span> <span class="mi">8</span> <span class="n">x</span> <span class="mi">16</span><span class="n">GB</span> <span class="n">DIMM</span> <span class="n">DDR4</span> <span class="mi">2133</span> <span class="n">MHz</span>
+<span class="n">NIC</span>     <span class="o">-</span> <span class="n">HP</span> <span class="n">FlexFabric</span> <span class="mi">10</span><span class="n">Gb</span> <span class="mi">2</span><span class="o">-</span><span class="n">port</span> <span class="mi">533</span><span class="n">FLR</span><span class="o">-</span><span class="n">T</span> <span class="n">NIC</span> <span class="n">Firmware</span> <span class="mf">7.14</span><span class="o">.</span><span class="mi">79</span>
+            <span class="o">-</span> <span class="n">Broadcom</span> <span class="n">NetXtreme</span> <span class="n">II</span> <span class="n">BCM57810</span>
+<span class="n">RAID</span>    <span class="o">-</span> <span class="n">P440ar</span> <span class="n">RAID</span> <span class="n">Controller</span> <span class="n">Firmware</span> <span class="mf">5.04</span>
+            <span class="o">-</span> <span class="n">HPE</span> <span class="mi">12</span><span class="n">G</span> <span class="n">SAS</span> <span class="n">Expander</span> <span class="n">Card</span>
+<span class="n">DISKS</span>   <span class="o">-</span> <span class="n">OS</span> <span class="n">RAID</span> <span class="mi">1</span>   <span class="o">-</span> <span class="mi">2</span> <span class="n">x</span> <span class="mi">600</span><span class="n">GB</span> <span class="n">HDD</span>
+          <span class="n">OSDs</span> <span class="n">RAID</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">24</span> <span class="n">x</span> <span class="n">SATA</span> <span class="n">SSD</span> <span class="n">Model</span> <span class="n">MK0960GFDKT</span> <span class="n">Firmware</span> <span class="n">HPG0</span>
+</pre></div>
+</div>
+<p>We ran the same set of 4KB &amp; 1MB benchtests mentioned above.</p>
+<div class="section" id="id5">
+<h2>4 KB objects<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 6 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>14045</td>
+<td>7168</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>13263</td>
+<td>5650</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>20576</td>
+<td>5821</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>24896</td>
+<td>5810</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>14662</td>
+<td>5319</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>15083</td>
+<td>5120</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id6">
+<h2>1 MB objects<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 6 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>1173</td>
+<td>1172</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>1172</td>
+<td>1174</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>1170</td>
+<td>1169</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>1170</td>
+<td>1169</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>16393</td>
+<td>5555</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>16667</td>
+<td>5882</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="nodes-results">
+<h3>5 Nodes Results<a class="headerlink" href="#nodes-results" title="Permalink to this headline">#</a></h3>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>4 KB objects<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>12136</td>
+<td>6257</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>12255</td>
+<td>4909</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>27002</td>
+<td>5725</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>24671</td>
+<td>5723</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>12210</td>
+<td>4456</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>12870</td>
+<td>4306</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id8">
+<h2>1 MB objects<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>1173</td>
+<td>1172</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>1173</td>
+<td>1172</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>1170</td>
+<td>1169</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>1169</td>
+<td>1169</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>12500</td>
+<td>4926</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>13698</td>
+<td>4902</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id9">
+<h3>4 Nodes Results<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h3>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>4 KB objects<a class="headerlink" href="#id10" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 4 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>10070</td>
+<td>4610</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>9832</td>
+<td>3892</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>18963</td>
+<td>5482</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>22779</td>
+<td>5379</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>10427</td>
+<td>3551</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>10121</td>
+<td>3454</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id11">
+<h2>1 MB objects<a class="headerlink" href="#id11" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 4 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>1172</td>
+<td>1170</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>1173</td>
+<td>1172</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>1170</td>
+<td>1169</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>1170</td>
+<td>1168</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>10204</td>
+<td>4032</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>10416</td>
+<td>3831</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="results-from-ceph-capacity-lab">
+<h1>Results from Ceph Capacity lab<a class="headerlink" href="#results-from-ceph-capacity-lab" title="Permalink to this headline">#</a></h1>
+<div class="highlight-default"><div class="highlight"><pre><span></span>HARDWARE
+========
+Chassis - Proliant DL380 Gen9
+CPU     - 2 x Intel Xeon E5-2630 8 core 2.4GHz
+Memory  - 8 x 16GB DIMM DDR4 2133 MHz
+NIC     - HP FlexFabric 10Gb 2-port 533FLR-T NIC Firmware 7.14.65
+            - Broadcom NetXtreme II BCM57810
+RAID    - P840 RAID Controller Firmware 5.04
+DISKS   - OS RAID 1      - 2 x 600GB HDD
+          Journal RAID 0 – 2 x SATA SSD Model MK0960GFDKT Firmware HPG0
+          OSDs RAID 0    – 8 x SATA HDD Model MB010000GWAYN Firmware HPG3
+</pre></div>
+</div>
+<div class="section" id="id12">
+<h2>4 KB objects<a class="headerlink" href="#id12" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 6 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>10917</td>
+<td>5503</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>5073</td>
+<td>3985</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>21171</td>
+<td>3380</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>19569</td>
+<td>3731</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>5455</td>
+<td>3235</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>5356</td>
+<td>3850</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id13">
+<h2>1 MB objects<a class="headerlink" href="#id13" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 6 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>975</td>
+<td>1170</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>807</td>
+<td>1170</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>1170</td>
+<td>1168</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>1170</td>
+<td>1169</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>2557</td>
+<td>5128</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>5988</td>
+<td>5747</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id14">
+<h3>5 Nodes Results<a class="headerlink" href="#id14" title="Permalink to this headline">#</a></h3>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>4 KB objects<a class="headerlink" href="#id15" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>8347</td>
+<td>4407</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>3624</td>
+<td>3288</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>15592</td>
+<td>3267</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>18382</td>
+<td>3566</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>3717</td>
+<td>2734</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>3847</td>
+<td>3136</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id16">
+<h2>1 MB objects<a class="headerlink" href="#id16" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 5 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>750</td>
+<td>1169</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>664</td>
+<td>1168</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>1169</td>
+<td>1168</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>1170</td>
+<td>1169</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>3236</td>
+<td>4032</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>4587</td>
+<td>4424</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id17">
+<h3>4 Nodes Results<a class="headerlink" href="#id17" title="Permalink to this headline">#</a></h3>
+</div>
+</div>
+<div class="section" id="id18">
+<h2>4 KB objects<a class="headerlink" href="#id18" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">4 KB 4 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>6250</td>
+<td>3511</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>2642</td>
+<td>2755</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>10706</td>
+<td>3028</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>16313</td>
+<td>3124</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>2388</td>
+<td>2280</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>2590</td>
+<td>2646</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id19">
+<h2>1 MB objects<a class="headerlink" href="#id19" title="Permalink to this headline">#</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="30%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">1 MB 4 nodes Results</th>
+<th class="head">Hummingbird</th>
+<th class="head">Ceph</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PUT/sec first round</td>
+<td>1129</td>
+<td>1164</td>
+</tr>
+<tr class="row-odd"><td>PUT/sec second round</td>
+<td>933</td>
+<td>1162</td>
+</tr>
+<tr class="row-even"><td>GET/sec first round</td>
+<td>701</td>
+<td>1169</td>
+</tr>
+<tr class="row-odd"><td>GET/sec second round</td>
+<td>964</td>
+<td>1169</td>
+</tr>
+<tr class="row-even"><td>DELETE/sec first round</td>
+<td>9174</td>
+<td>3424</td>
+</tr>
+<tr class="row-odd"><td>DELETE/sec second round</td>
+<td>8620</td>
+<td>3636</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
